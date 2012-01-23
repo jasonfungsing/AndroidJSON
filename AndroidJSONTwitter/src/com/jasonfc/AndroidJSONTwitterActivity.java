@@ -17,21 +17,31 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class AndroidJSONTwitterActivity extends Activity {
+	private EditText text;
+	private Uri url;
+	private String result;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		url = Uri.parse("https://twitter.com/statuses/user_timeline/jasonfungsing.json");
+		HttpAsyncTask task = new HttpAsyncTask(url.toString(), result, this);
+		task.execute();
+	}
+
+	protected void getResponse(String result) {
 		setContentView(R.layout.main);
-		String readTwitterFeed = readTwitterFeed();
-		
 		StringBuilder page = new StringBuilder();
 		try {
-			JSONArray jsonArray = new JSONArray(readTwitterFeed);
+			JSONArray jsonArray = new JSONArray(result);
 			Log.i(AndroidJSONTwitterActivity.class.toString(), "Number of entries " + jsonArray.length());
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -43,38 +53,9 @@ public class AndroidJSONTwitterActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		TextView vw1 = (TextView) findViewById(R.id.text_view_1);
 		vw1.setText(page.toString());
 
-	}
-
-	private String readTwitterFeed() {
-		StringBuilder builder = new StringBuilder();
-		HttpClient client = new DefaultHttpClient();
-		HttpGet httpget = new HttpGet("https://twitter.com/statuses/user_timeline/jasonfungsing.json");
-
-		try {
-			HttpResponse response = client.execute(httpget);
-			StatusLine statusline = response.getStatusLine();
-			int statusCode = statusline.getStatusCode();
-			if (statusCode == 200) {
-				HttpEntity entity = response.getEntity();
-				InputStream content = entity.getContent();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					builder.append(line);
-				}
-			} else {
-				Log.e(AndroidJSONTwitterActivity.class.toString(), "Failed to download file");
-			}
-
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return builder.toString();
 	}
 }
