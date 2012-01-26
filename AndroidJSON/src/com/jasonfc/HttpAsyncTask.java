@@ -3,7 +3,6 @@ package com.jasonfc;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -15,17 +14,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 
+import com.jasonfc.blogger.BloggerDisplay;
+
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.jasonfc.blogger.BlogList;
-import com.jasonfc.blogger.Items;
 
 public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 
@@ -43,7 +37,7 @@ public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 	@Override
 	protected String doInBackground(String... arg0) {
 
-		StringBuilder builder = new StringBuilder();
+		String displayString = null;
 		HttpParams httpParameters = new BasicHttpParams();
 		httpParameters.setIntParameter(ConnManagerPNames.MAX_TOTAL_CONNECTIONS, 5000);
 		HttpClient client = new DefaultHttpClient(httpParameters);
@@ -63,22 +57,9 @@ public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 				}
 				in.close();
 				String page = sb.toString();
-				Gson gson = new Gson();
-				JsonElement json = new JsonParser().parse(page);
-				Log.i("JsonElement--->>", json.toString());
-				JsonObject jsonObject = json.getAsJsonObject();
-				BlogList objs = gson.fromJson(jsonObject, BlogList.class);
-				builder.append(objs.getKind());
-				builder.append("\n");
-				List<Items> itemsList = objs.getItems();
-				for (Items item : itemsList) {
-					builder.append(item.getAuthor().getDisplayName());
-					builder.append(" --> ");
-					builder.append("\n");
-					builder.append("  ");
-					builder.append(item.getTitle());
-					builder.append("\n");
-				}
+				Log.i("page in synce -->", page);
+				Display bd = new BloggerDisplay();
+				displayString = bd.getDisplayString(page);
 			} else {
 				Log.e(AndroidJSONActivity.class.toString(), "Failed to download file");
 			}
@@ -90,7 +71,7 @@ public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 			publishProgress(1);
 			e.printStackTrace();
 		}
-		return builder.toString();
+		return displayString;
 	}
 
 	@Override
