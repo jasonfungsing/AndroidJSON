@@ -2,10 +2,9 @@ package com.jasonfc;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
@@ -20,6 +19,11 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 
@@ -47,12 +51,31 @@ public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 			StatusLine statusline = response.getStatusLine();
 			int statusCode = statusline.getStatusCode();
 			if (statusCode == 200) {
-				HttpEntity entity = response.getEntity();
-				InputStream content = entity.getContent();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					builder.append(line);
+				BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+				StringBuffer sb = new StringBuffer("");
+				String line = "";
+				String NL = System.getProperty("line.separator");
+				while ((line = in.readLine()) != null) {
+					sb.append(line + NL);
+				}
+				in.close();
+				String page = sb.toString();
+				Gson gson = new Gson();
+				JsonElement json = new JsonParser().parse(page);
+				Log.i("JsonElement--->>", json.toString());
+				JsonObject jsonObject = json.getAsJsonObject();
+				BlogList objs = gson.fromJson(jsonObject, BlogList.class);
+				builder.append(objs.getKind());
+				builder.append("\n");
+				List<Items> itemsList = objs.getItems();
+				for(Items item:itemsList){
+					builder.append(item.getAuthor().getDisplayName());
+					builder.append(" --> ");
+					builder.append("\n");
+					builder.append("  ");
+					builder.append(item.getTitle());
+					builder.append("\n");
 				}
 			} else {
 				Log.e(AndroidJSONTwitterActivity.class.toString(), "Failed to download file");
@@ -75,15 +98,15 @@ public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 		dialog.setMessage("Please, wait...");
 		dialog.show();
 	}
-	
+
 	@Override
 	protected void onProgressUpdate(Integer... progress) {
-		Toast.makeText(ajt, "Can not conntection to Internet, try later",Toast.LENGTH_LONG).show();
+		Toast.makeText(ajt, "Can not conntection to Internet, try later", Toast.LENGTH_LONG).show();
 	}
 
 	@Override
 	protected void onPostExecute(String result) {
 		dialog.dismiss();
-		ajt.getResponse(result);
+		ajt.displayResults(result);
 	}
 }
