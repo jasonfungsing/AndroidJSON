@@ -1,4 +1,4 @@
-package com.jasonfc;
+package com.jasonfc.blogger;
 
 public class Image {
 	private String url;

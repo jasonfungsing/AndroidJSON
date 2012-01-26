@@ -1,6 +1,7 @@
-package com.jasonfc;
+package com.jasonfc.blogger;
 
 import java.util.List;
+
 
 public class Items {
 	private Author author;

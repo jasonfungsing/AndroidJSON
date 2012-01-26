@@ -1,4 +1,5 @@
-package com.jasonfc;
+package com.jasonfc.blogger;
+
 
 public class Author {
 	private String displayName;

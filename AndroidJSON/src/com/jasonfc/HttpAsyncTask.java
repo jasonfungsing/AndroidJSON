@@ -24,6 +24,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.jasonfc.blogger.BlogList;
+import com.jasonfc.blogger.Items;
 
 public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 
@@ -69,7 +71,7 @@ public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 				builder.append(objs.getKind());
 				builder.append("\n");
 				List<Items> itemsList = objs.getItems();
-				for(Items item:itemsList){
+				for (Items item : itemsList) {
 					builder.append(item.getAuthor().getDisplayName());
 					builder.append(" --> ");
 					builder.append("\n");

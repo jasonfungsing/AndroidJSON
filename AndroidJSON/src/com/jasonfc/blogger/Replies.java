@@ -1,4 +1,4 @@
-package com.jasonfc;
+package com.jasonfc.blogger;
 
 public class Replies {
 	private String selfLink;

@@ -1,6 +1,7 @@
-package com.jasonfc;
+package com.jasonfc.blogger;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class BlogList {
@@ -15,35 +16,35 @@ public class BlogList {
 
 	private List<Items> items;
 
-	protected String getKind() {
+	public String getKind() {
 		return kind;
 	}
 
-	protected void setKind(String kind) {
+	public void setKind(String kind) {
 		this.kind = kind;
 	}
 
-	protected String getNextPage() {
+	public String getNextPage() {
 		return nextPage;
 	}
 
-	protected void setNextPage(String nextPage) {
+	public void setNextPage(String nextPage) {
 		this.nextPage = nextPage;
 	}
 
-	protected String getPrevPage() {
+	public String getPrevPage() {
 		return prevPage;
 	}
 
-	protected void setPrevPage(String prevPage) {
+	public void setPrevPage(String prevPage) {
 		this.prevPage = prevPage;
 	}
 
-	protected List<Items> getItems() {
+	public List<Items> getItems() {
 		return this.items;
 	}
 
-	protected void setItems(List<Items> items) {
+	public void setItems(List<Items> items) {
 		this.items = items;
 	}
 }
