@@ -94,7 +94,7 @@ public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 	@Override
 	protected void onPreExecute() {
 		dialog = new ProgressDialog(ajt, ProgressDialog.STYLE_SPINNER);
-		dialog.setTitle("JSON Twitter");
+		dialog.setTitle("AndroidJSON");
 		dialog.setMessage("Please, wait...");
 		dialog.show();
 	}
