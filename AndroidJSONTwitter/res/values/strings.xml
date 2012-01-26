@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, AndroidJSONTwitterActivity!</string>
-    <string name="app_name">AndroidJSONTwitter</string>
+    <string name="hello">Hello World, AndroidJSON!</string>
+    <string name="app_name">AndroidJSON</string>
 
 </resources>

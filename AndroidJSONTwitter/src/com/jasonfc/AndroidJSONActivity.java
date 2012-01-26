@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class AndroidJSONTwitterActivity extends Activity {
+public class AndroidJSONActivity extends Activity {
 	private Uri url;
 	private String result;
 
