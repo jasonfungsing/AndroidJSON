@@ -29,10 +29,10 @@ public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 
 	private String url;
 	private String result;
-	private AndroidJSONTwitterActivity ajt;
+	private AndroidJSONActivity ajt;
 	private ProgressDialog dialog;
 
-	public HttpAsyncTask(String url, String result, AndroidJSONTwitterActivity ajt) {
+	public HttpAsyncTask(String url, String result, AndroidJSONActivity ajt) {
 		this.url = url;
 		this.result = result;
 		this.ajt = ajt;
@@ -78,13 +78,13 @@ public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 					builder.append("\n");
 				}
 			} else {
-				Log.e(AndroidJSONTwitterActivity.class.toString(), "Failed to download file");
+				Log.e(AndroidJSONActivity.class.toString(), "Failed to download file");
 			}
 
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			Log.e(AndroidJSONTwitterActivity.class.toString(), "Http Async task Io exception");
+			Log.e(AndroidJSONActivity.class.toString(), "Http Async task Io exception");
 			publishProgress(1);
 			e.printStackTrace();
 		}
